@@ -12,7 +12,19 @@ function generateCacheKey(match: any) {
 
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const matches = await prisma.match.findMany();
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalMatches = await prisma.match.count();
+    const totalPages = Math.ceil(totalMatches / limit);
+
+    const matches = await prisma.match.findMany({
+      skip,
+      take: limit,
+      orderBy: { startTime: "asc" },
+    });
+
     const enrichedMatches = await Promise.all(
       matches.map(async (match) => {
         const cacheKey = generateCacheKey(match);
@@ -36,7 +48,15 @@ router.get("/", authMiddleware, async (req, res) => {
         };
       }),
     );
-    res.json(enrichedMatches);
+    res.json({
+      matches: enrichedMatches,
+      pagination: {
+        totalMatches,
+        totalPages,
+        currentPage: page,
+        limit,
+      },
+    });
   } catch (err: any) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch matches" });
