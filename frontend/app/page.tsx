@@ -20,7 +20,7 @@ export default function Home() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/login");
+      router.push("/register");
       return;
     }
 
@@ -53,7 +53,7 @@ export default function Home() {
       .catch((err) => {
         if (err.message.toLowerCase().includes("unauthorized") || err.message.toLowerCase().includes("missing token")) {
           localStorage.removeItem("token");
-          router.push("/login");
+          router.push("/register");
         }
       })
       .finally(() => setLoading(false));

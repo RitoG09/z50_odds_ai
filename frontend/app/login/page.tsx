@@ -49,23 +49,37 @@ export default function Login() {
             <Input 
               placeholder="you@example.com" 
               type="email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)} 
               onKeyDown={(e) => e.key === "Enter" && login()}
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium leading-none">Password</label>
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium leading-none">Password</label>
+              <button 
+                type="button"
+                className="text-xs text-primary hover:underline font-medium"
+                onClick={() => { setEmail("tom@gmail.com"); setPassword("123456"); }}
+              >
+                Use Demo Account
+              </button>
+            </div>
             <Input 
               type="password" 
               placeholder="••••••••"
+              value={password}
               onChange={(e) => setPassword(e.target.value)} 
               onKeyDown={(e) => e.key === "Enter" && login()}
             />
           </div>
         </CardContent>
-        <CardFooter className="pt-2">
+        <CardFooter className="pt-2 flex flex-col space-y-2">
           <Button className="w-full font-bold" onClick={login} disabled={loading || !email || !password}>
             {loading ? "Signing in..." : "Sign In"}
+          </Button>
+          <Button variant="outline" className="w-full" onClick={() => window.location.href = "/register"}>
+            Create an Account
           </Button>
         </CardFooter>
       </Card>
