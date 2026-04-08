@@ -9,8 +9,16 @@ function generateCacheKey(match: any) {
 }
 
 export const getMatchesTool = tool(
-  async () => {
+  async (input) => {
     const matches = await prisma.match.findMany();
+
+    let filtered = matches;
+
+    if (input?.home_team && input?.away_team) {
+      filtered = matches.filter(
+        (m) => m.teamA === input.home_team && m.teamB === input.away_team,
+      );
+    }
 
     const enriched = await Promise.all(
       matches.map(async (match) => {
@@ -37,7 +45,12 @@ export const getMatchesTool = tool(
   {
     name: "get_matches",
     description:
-      "MANDATORY TOOL. Use this to answer ANY question about matches, predictions, probabilities, best match, closest match, or odds. Returns match data with probabilities.",
-    schema: z.object({}),
+      "MANDATORY TOOL. Use this for ALL match-related queries including predictions, probabilities, best matches, or comparisons.",
+    schema: z
+      .object({
+        home_team: z.string().optional(),
+        away_team: z.string().optional(),
+      })
+      .optional(),
   },
 );
