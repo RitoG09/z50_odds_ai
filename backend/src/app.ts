@@ -7,7 +7,13 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://z50-odds-ai.vercel.app"],
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
