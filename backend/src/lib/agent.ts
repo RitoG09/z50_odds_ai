@@ -7,7 +7,7 @@ const llm = new ChatGroq({
   temperature: 0,
 });
 
-export const agent = createAgent({
+export const agent: any = createAgent({
   model: llm,
   tools: [getMatchesTool],
 });

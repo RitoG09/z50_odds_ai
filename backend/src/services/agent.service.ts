@@ -1,6 +1,6 @@
 import { agent } from "../lib/agent";
 
-export async function queryAgent(userQuery: string) {
+export async function queryAgent(userQuery: string): Promise<string> {
   const res = await agent.invoke({
     messages: [
       {
