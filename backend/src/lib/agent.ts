@@ -3,7 +3,7 @@ import { getMatchesTool } from "./tools";
 import { ChatGroq } from "@langchain/groq";
 
 const llm = new ChatGroq({
-  model: "openai/gpt-oss-20b",
+  model: "llama-3.1-8b-instant",
   temperature: 0,
 });
 

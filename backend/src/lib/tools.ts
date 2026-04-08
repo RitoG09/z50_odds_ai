@@ -37,7 +37,7 @@ export const getMatchesTool = tool(
   {
     name: "get_matches",
     description:
-      "Fetch all matches with probabilities. Use this whenever answering questions about matches.",
+      "MANDATORY TOOL. Use this to answer ANY question about matches, predictions, probabilities, best match, closest match, or odds. Returns match data with probabilities.",
     schema: z.object({}),
   },
 );
